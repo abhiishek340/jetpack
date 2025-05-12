@@ -87,6 +87,7 @@ fun Greeting(name: String) {
                 Text(text = "Hello ",)
                 Text(text = name,)
             }
+
             OutlinedButton(onClick = { expanded = !expanded}) {
                 Text(if(expanded)"Show less" else "Show more" , color = MaterialTheme.colorScheme.onBackground)
             }
