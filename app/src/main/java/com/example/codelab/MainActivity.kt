@@ -1,5 +1,6 @@
 package com.example.codelab
 
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -108,7 +109,9 @@ fun OnboardingScreen(modifier: Modifier = Modifier,onContinueClicked:() -> Unit)
     }
 }
 
+@Preview(showBackground = true, widthDp = 320, heightDp = 320 , uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Preview(showBackground = true, widthDp = 320, heightDp = 320)
+
 @Composable
 fun OnboardingPreview() {
    CodelabTheme {
