@@ -5,6 +5,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -47,7 +50,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MyApp() {
-    var shouldShowOnboarding by remember { mutableStateOf(true) }
+    var shouldShowOnboarding by rememberSaveable { mutableStateOf(true) }
 
     if(shouldShowOnboarding){
         OnboardingScreen(onContinueClicked = {shouldShowOnboarding = false})
@@ -58,10 +61,11 @@ fun MyApp() {
 
 
 @Composable
-fun Greetings (names: List<String> = List(1000){"$it"}) {
+fun Greetings (names: List<String> = List(10){"$it"}) {
     Surface(color = MaterialTheme.colorScheme.background){
         Column (modifier = Modifier.padding(vertical = 4.dp)){
             LazyColumn {
+                item { Text("Header") }
                 items(names) { name ->
                     Greeting(name)
                 }
@@ -73,7 +77,10 @@ fun Greetings (names: List<String> = List(1000){"$it"}) {
 @Composable
 fun Greeting(name: String) {
     var expanded by remember {mutableStateOf(false)}
-    val extrapadding = if (expanded)48.dp else 0.dp
+    val extrapadding by animateDpAsState (targetValue =
+        if (expanded) 48.dp else 0.dp, animationSpec = tween(
+                durationMillis = 2000
+        ))
     Surface(color = MaterialTheme.colorScheme.primary, modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp) ){
         Row (modifier = Modifier.padding(24.dp)){
             Column (modifier = Modifier.weight(1f).padding(bottom = extrapadding)){
